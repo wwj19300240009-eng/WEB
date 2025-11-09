@@ -1,23 +1,19 @@
-# MacOS
+# 系统文件
 .DS_Store
-
-# Windows
 Thumbs.db
-Desktop.ini
+desktop.ini
 
-# IDE
+# 编辑器文件
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
 # 临时文件
 *.tmp
-*.bak
-
-# 日志文件
 *.log
 
-# 可选：如果视频文件太大，不推送到GitHub
-# 模型作业/*.mp4
-
+# 备份文件
+*.bak
+*_backup.*
