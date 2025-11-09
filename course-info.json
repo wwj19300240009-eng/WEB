@@ -1,0 +1,126 @@
+{
+  "course": {
+    "code": "AIT531020.01",
+    "credits": 2.0,
+    "hours": 36.0,
+    "level": 5,
+    "language": "中文",
+    "department": "文物与博物馆学系",
+    "courseLeader": "文少卿",
+    "title": {
+      "zh": "AI考古",
+      "en": "AI for Archaeology"
+    },
+    "description": {
+      "zh": "AI考古学是人工智能和考古学交叉的前沿方向，旨在高效处理文本、图像、音频等考古大数据，为考古学研究和文物保护修复等提供智力支持。目前，人工智能技术正向考古调查、发掘、材料整理、数据分析甚至考古报告写作等诸环节渗透。考古领域数字化程度逐步提高，遗址、标本、实验结果、图片与文字档案、文献等方面电子化数据库将成为考古机构的标配和基本条件。",
+      "en": "AI Archaeology is an emerging interdisciplinary field combining artificial intelligence and archaeology, aiming to efficiently process large-scale archaeological data including texts, images, and audio, thereby providing intellectual support for archaeological research and cultural heritage conservation. Currently, AI technologies are being integrated into various archaeological processes such as field surveys, excavations, material organization, data analysis, and even archaeological report writing. With the increasing digitalization in archaeology, electronic databases for sites, specimens, experimental results, image/text archives, and literature are becoming standard infrastructure and basic requirements for archaeological institutions."
+    },
+    "objectives": "本课程主要向学生介绍AI考古学的发展历史、人工智能的基本知识、以及在考古场景下的最新动态，激发学生对于AI考古学的兴趣，将理论与实践相结合，在案例研讨中培养学生的实际理解与应用能力。通过课程、讨论、互动、实践等形式，让学生全方位感受AI考古的不同应用场景。",
+    "teachingMethods": "跨学科课程体系学习及数据驱动的实践教学。",
+    "modules": [
+      {
+        "week": "第一周～二周",
+        "topics": ["AI考古学的发展历史及应用", "AI发展简史及基本原理"],
+        "assignment": "科技考古相关文献"
+      },
+      {
+        "week": "第三周～五周",
+        "topics": ["影像识别技术在考古学中的应用", "语义分割技术在考古学中的应用", "AI技术的数字人和数字城市重建"],
+        "assignment": "人工智能相关文献"
+      },
+      {
+        "week": "第六周～十三周",
+        "topics": [
+          "AI考古在考古发掘中的应用（遥感数据）",
+          "AI考古与专业数据库（陶瓷器、金属器）",
+          "AI考古与专业数据库（人类、动物、植物）",
+          "AI考古与考古报告文本/图像数据挖掘"
+        ],
+        "assignment": "人工智能考古相关文献"
+      },
+      {
+        "week": "第十四周～十六周",
+        "topics": ["AI考古大数据的最新动向", "AI数智人与数智城市", "AI考古的伦理问题"],
+        "assignment": "研讨人工智能考古相关文献"
+      }
+    ],
+    "assessment": {
+      "participation": {
+        "weight": 30,
+        "description": "上课提问及回答"
+      },
+      "assignment": {
+        "weight": 70,
+        "description": "课程项目完成情况"
+      },
+      "gradingSystem": "等级制"
+    }
+  },
+  "teachers": [
+    {
+      "id": 1,
+      "name": "钱振兴",
+      "nameEn": "Qian Zhenxing",
+      "title": "教授",
+      "titleEn": "Professor",
+      "role": "主讲教师",
+      "department": "计算与智能创新学院",
+      "email": "zxqian@fudan.edu.cn",
+      "homepage": "https://faculty.fudan.edu.cn/zqian/zh_CN/index.htm",
+      "bio": "教授、博导，入选国家高层次人才计划，担任文化和旅游部重点实验室副主任。主要从事多媒体信息安全、人工智能应用与安全等方面的研究，主持国家自然科学基金重点、国家重点研发计划课题等各类项目30余项，在IEEE TPAMI、CVPR、ICCV、NeurIPS等顶级期刊和会议上发表学术论文200余篇。",
+      "expertise": ["多媒体信息安全", "人工智能应用", "计算机视觉"],
+      "photo": "./钱振兴.jpg"
+    },
+    {
+      "id": 2,
+      "name": "金城",
+      "nameEn": "Jin Cheng",
+      "title": "教授",
+      "titleEn": "Professor",
+      "role": "主讲教师",
+      "department": "计算与智能创新学院",
+      "email": "jc@fudan.edu.cn",
+      "homepage": "https://iipl.fudan.edu.cn/70/e8/c45864a684264/page.htm",
+      "bio": "计算与智能创新学院教授，长期从事图像处理与计算机视觉研究，在深度学习、图像识别等领域具有丰富的研究经验，致力于将AI技术应用于考古文物研究。",
+      "expertise": ["图像处理", "计算机视觉", "深度学习"],
+      "photo": "./金城.jpg"
+    },
+    {
+      "id": 3,
+      "name": "文少卿",
+      "nameEn": "Wen Shaoqing",
+      "title": "副教授",
+      "titleEn": "Associate Professor",
+      "role": "课程负责人",
+      "department": "文物与博物馆学系",
+      "email": "wenshaoqing@fudan.edu.cn",
+      "homepage": "https://www.chm.fudan.edu.cn/bb/fa/c11450a637946/page.htm",
+      "bio": "文物与博物馆学系副教授，专注于科技考古、文物保护与数字人文研究，致力于推动人工智能技术在考古学领域的创新应用，在考古大数据分析和智能化考古研究方面具有深入探索。",
+      "expertise": ["科技考古", "文物保护", "数字人文", "考古大数据"],
+      "photo": "./文少卿.jpg"
+    }
+  ],
+  "keyFeatures": [
+    {
+      "icon": "brain",
+      "title": "深度学习",
+      "description": "应用深度学习算法进行文物识别与分类"
+    },
+    {
+      "icon": "eye",
+      "title": "计算机视觉",
+      "description": "利用图像识别技术处理考古影像资料"
+    },
+    {
+      "icon": "layer-group",
+      "title": "遗址分析",
+      "description": "基于遥感数据的智能考古发掘与分析"
+    },
+    {
+      "icon": "language",
+      "title": "古文字识别",
+      "description": "运用NLP技术进行古文字自动识别与解读"
+    }
+  ]
+}
+

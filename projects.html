@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI考古课程模型项目展示">
+    <title>模型项目 - AI考古课程</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        
+        /* 复旦蓝配色方案 */
+        .gradient-bg {
+            background: linear-gradient(135deg, #094FA3 0%, #2C5AA0 100%);
+        }
+        
+        .fudan-blue {
+            color: #094FA3;
+        }
+        
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* 视频容器响应式 */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            margin: 2% auto;
+            max-width: 1200px;
+            width: 95%;
+        }
+        
+        /* 移动端优化 */
+        @media (max-width: 640px) {
+            .modal-content {
+                margin: 10px;
+                width: calc(100% - 20px);
+            }
+            
+            .page-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    
+    <!-- 导航栏 -->
+    <nav class="gradient-bg text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <i class="fas fa-landmark text-2xl"></i>
+                    <span class="text-xl font-bold hidden sm:inline">AI考古课程</span>
+                    <span class="text-lg font-bold sm:hidden">AI考古</span>
+                </a>
+                
+                <button id="mobileMenuBtn" class="sm:hidden">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+                
+                <div class="hidden sm:flex space-x-6">
+                    <a href="index.html" class="hover:text-yellow-300 transition">首页</a>
+                    <a href="surveys.html" class="hover:text-yellow-300 transition">综述作业</a>
+                    <a href="projects.html" class="text-yellow-300 font-bold">模型作业</a>
+                </div>
+            </div>
+            
+            <div id="mobileMenu" class="hidden sm:hidden mt-4 pb-2 space-y-2">
+                <a href="index.html" class="block py-2 px-4 hover:bg-white hover:bg-opacity-10 rounded">首页</a>
+                <a href="surveys.html" class="block py-2 px-4 hover:bg-white hover:bg-opacity-10 rounded">综述作业</a>
+                <a href="projects.html" class="block py-2 px-4 bg-white bg-opacity-20 rounded font-bold">模型作业</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面标题 -->
+    <section class="gradient-bg text-white py-8 sm:py-12">
+        <div class="container mx-auto px-4">
+            <h1 class="page-title text-2xl sm:text-4xl font-bold mb-2">
+                <i class="fas fa-robot mr-2"></i>模型项目
+            </h1>
+            <p class="text-sm sm:text-base opacity-90">学生开发的AI考古实践项目与深度学习模型</p>
+        </div>
+    </section>
+
+    <!-- 搜索和筛选 -->
+    <section class="container mx-auto px-4 py-6">
+        <div class="bg-white rounded-lg shadow-md p-4">
+            <div class="flex flex-col sm:flex-row gap-3">
+                <div class="flex-1">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="搜索项目或作者..." 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                    >
+                </div>
+                <select id="tagFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base">
+                    <option value="">全部标签</option>
+                    <option value="计算机视觉">计算机视觉</option>
+                    <option value="深度学习">深度学习</option>
+                    <option value="文物识别">文物识别</option>
+                    <option value="图像识别">图像识别</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目列表 -->
+    <section class="container mx-auto px-4 pb-12">
+        <div id="projectList" class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+            <!-- 动态加载项目卡片 -->
+        </div>
+        
+        <div id="noResults" class="hidden text-center py-12">
+            <i class="fas fa-search text-gray-300 text-5xl sm:text-6xl mb-4"></i>
+            <p class="text-gray-500 text-base sm:text-lg">未找到相关项目</p>
+        </div>
+    </section>
+
+    <!-- 视频模态框 -->
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <div class="bg-white rounded-lg overflow-hidden">
+                <!-- 模态框头部 -->
+                <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 flex justify-between items-center">
+                    <h3 id="modalTitle" class="text-lg sm:text-xl font-bold"></h3>
+                    <button id="closeModal" class="text-2xl hover:text-gray-200">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <!-- 视频播放器 -->
+                <div class="bg-black">
+                    <div class="video-container">
+                        <video id="modalVideo" controls controlsList="nodownload" class="w-full">
+                            <source src="" type="video/mp4">
+                            您的浏览器不支持视频播放
+                        </video>
+                    </div>
+                </div>
+                
+                <!-- 项目详情 -->
+                <div class="p-4 sm:p-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+                        <div>
+                            <p class="text-gray-600 text-sm sm:text-base mb-1">
+                                <i class="fas fa-user mr-2"></i>
+                                <span id="modalAuthor"></span>
+                            </p>
+                            <p class="text-gray-500 text-xs sm:text-sm">
+                                <i class="fas fa-id-card mr-2"></i>
+                                <span id="modalStudentId"></span>
+                            </p>
+                        </div>
+                        <a id="modalPdfLink" href="#" target="_blank" 
+                           style="background-color: #094FA3;" 
+                           class="mt-3 sm:mt-0 hover:opacity-90 text-white px-4 py-2 rounded-lg text-sm sm:text-base inline-block text-center">
+                            <i class="fas fa-file-pdf mr-2"></i>查看介绍PDF
+                        </a>
+                    </div>
+                    
+                    <div id="modalDescription" class="text-gray-700 text-sm sm:text-base mb-4"></div>
+                    
+                    <div id="modalTags" class="flex flex-wrap gap-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="gradient-bg text-white py-6 sm:py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm sm:text-base mb-2">
+                <i class="fas fa-university mr-2"></i>AI考古课程学生作业展示平台
+            </p>
+            <p class="text-xs sm:text-sm opacity-75">
+                © 2025 All Rights Reserved
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        let allProjects = [];
+        
+        // 移动端菜单
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        });
+        
+        // 加载数据
+        fetch('data.json')
+            .then(response => response.json())
+            .then(data => {
+                allProjects = data.projects;
+                renderProjects(allProjects);
+            })
+            .catch(error => {
+                console.error('数据加载失败:', error);
+                document.getElementById('noResults').classList.remove('hidden');
+            });
+        
+        // 渲染项目卡片
+        function renderProjects(projects) {
+            const container = document.getElementById('projectList');
+            const noResults = document.getElementById('noResults');
+            
+            if (projects.length === 0) {
+                container.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+            
+            noResults.classList.add('hidden');
+            
+            const colors = [
+                'from-blue-400 to-blue-600',
+                'from-green-400 to-green-600',
+                'from-purple-400 to-purple-600',
+                'from-red-400 to-red-600',
+                'from-yellow-400 to-orange-600',
+                'from-pink-400 to-pink-600'
+            ];
+            
+            container.innerHTML = projects.map((project, index) => `
+                <div class="card-hover bg-white rounded-lg shadow-md overflow-hidden">
+                    <!-- 视频缩略图 -->
+                    <div class="bg-gradient-to-br ${colors[index % colors.length]} h-48 sm:h-56 flex items-center justify-center relative cursor-pointer" 
+                         onclick='openModal(${JSON.stringify(project)})'>
+                        <i class="fas fa-play-circle text-white text-6xl sm:text-7xl opacity-80 hover:opacity-100 transition"></i>
+                        <div class="absolute top-3 right-3">
+                            <span class="bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
+                                <i class="fas fa-video mr-1"></i>视频
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- 内容区域 -->
+                    <div class="p-4 sm:p-5">
+                        <h3 class="font-bold text-gray-800 mb-2 text-base sm:text-lg line-clamp-2">
+                            ${project.title}
+                        </h3>
+                        
+                        <div class="flex items-center text-gray-600 text-xs sm:text-sm mb-3">
+                            <i class="fas fa-user mr-2"></i>
+                            <span>${project.author}</span>
+                            <span class="mx-2">·</span>
+                            <span class="text-gray-400">${project.studentId}</span>
+                        </div>
+                        
+                        ${project.description ? `
+                            <p class="text-gray-600 text-xs sm:text-sm mb-4 line-clamp-3">
+                                ${project.description}
+                            </p>
+                        ` : ''}
+                        
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            ${project.tags.map(tag => `
+                                <span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">
+                                    ${tag}
+                                </span>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="flex gap-2">
+                            <button onclick='openModal(${JSON.stringify(project)})' 
+                                    style="background-color: #094FA3;" 
+                                    class="flex-1 hover:opacity-90 text-white py-2 px-4 rounded-lg transition text-sm sm:text-base">
+                                <i class="fas fa-play mr-2"></i>播放视频
+                            </button>
+                            <a href="${project.pdfPath}" 
+                               target="_blank" 
+                               class="bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-3 sm:px-4 rounded-lg transition">
+                                <i class="fas fa-file-pdf"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // 打开视频模态框
+        function openModal(project) {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('modalVideo');
+            
+            document.getElementById('modalTitle').textContent = project.title;
+            document.getElementById('modalAuthor').textContent = project.author;
+            document.getElementById('modalStudentId').textContent = project.studentId;
+            document.getElementById('modalDescription').textContent = project.description || '暂无详细介绍';
+            document.getElementById('modalPdfLink').href = project.pdfPath;
+            
+            // 设置视频源
+            video.src = project.videoPath;
+            video.load();
+            
+            // 设置标签
+            const tagsContainer = document.getElementById('modalTags');
+            tagsContainer.innerHTML = project.tags.map(tag => `
+                <span class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded">
+                    ${tag}
+                </span>
+            `).join('');
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // 关闭模态框
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        
+        document.getElementById('videoModal').addEventListener('click', (e) => {
+            if (e.target.id === 'videoModal') {
+                closeModal();
+            }
+        });
+        
+        function closeModal() {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('modalVideo');
+            
+            video.pause();
+            video.src = '';
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // ESC键关闭
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+        
+        // 搜索功能
+        document.getElementById('searchInput').addEventListener('input', filterProjects);
+        document.getElementById('tagFilter').addEventListener('change', filterProjects);
+        
+        function filterProjects() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const selectedTag = document.getElementById('tagFilter').value;
+            
+            const filtered = allProjects.filter(project => {
+                const matchesSearch = !searchTerm || 
+                    project.title.toLowerCase().includes(searchTerm) ||
+                    project.author.toLowerCase().includes(searchTerm) ||
+                    project.studentId.toLowerCase().includes(searchTerm);
+                
+                const matchesTag = !selectedTag || project.tags.includes(selectedTag);
+                
+                return matchesSearch && matchesTag;
+            });
+            
+            renderProjects(filtered);
+        }
+    </script>
+
+</body>
+</html>
+

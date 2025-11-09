@@ -1,78 +1,435 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Page - ai4a.dpdns.org</title>
+    <meta name="description" content="AI考古课程门户网站 - 展示学生综述作业和模型项目">
+    <title>AI考古课程 - 学生作业展示</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
+            font-family: 'Noto Sans SC', sans-serif;
         }
-        header {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
+        
+        /* 复旦蓝配色方案 */
+        .gradient-bg {
+            background: linear-gradient(135deg, #094FA3 0%, #2C5AA0 100%);
         }
-        section {
-            padding: 20px;
-            margin: 20px;
-            background-color: white;
-            border-radius: 8px;
+        
+        .fudan-blue {
+            color: #094FA3;
         }
-        footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #333;
-            color: white;
-            position: fixed;
+        
+        .fudan-blue-bg {
+            background-color: #094FA3;
+        }
+        
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* 教师头像圆形统一 */
+        .teacher-avatar {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Hero背景 - 复旦蓝 */
+        .hero-bg {
+            background: linear-gradient(135deg, #094FA3 0%, #2C5AA0 50%, #4A7BA7 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
             bottom: 0;
-            width: 100%;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h100v100H0z" fill="none"/><path d="M50 0L100 50L50 100L0 50z" fill="white" opacity="0.03"/></svg>') repeat;
+            animation: float 20s infinite linear;
         }
-        a {
-            color: #3498db;
-            text-decoration: none;
+        
+        @keyframes float {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
         }
-        .img-container {
-            text-align: center;
-        }
-        .img-container img {
-            width: 100%;
-            max-width: 400px;
-            border-radius: 8px;
+        
+        /* 移动端优化 */
+        @media (max-width: 640px) {
+            .hero-title {
+                font-size: 2rem;
+                line-height: 2.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .teacher-avatar {
+                width: 100px;
+                height: 100px;
+            }
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-50">
+    
+    <!-- 导航栏 - 移动端优化 -->
+    <nav class="gradient-bg text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <i class="fas fa-landmark text-2xl"></i>
+                    <span class="text-xl font-bold hidden sm:inline">AI考古课程</span>
+                    <span class="text-lg font-bold sm:hidden">AI考古</span>
+                </a>
+                
+                <!-- 移动端菜单按钮 -->
+                <button id="mobileMenuBtn" class="sm:hidden">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+                
+                <!-- 桌面端菜单 -->
+                <div class="hidden sm:flex space-x-6">
+                    <a href="index.html" class="hover:text-yellow-300 transition">首页</a>
+                    <a href="surveys.html" class="hover:text-yellow-300 transition">综述作业</a>
+                    <a href="projects.html" class="hover:text-yellow-300 transition">模型作业</a>
+                </div>
+            </div>
+            
+            <!-- 移动端下拉菜单 -->
+            <div id="mobileMenu" class="hidden sm:hidden mt-4 pb-2 space-y-2">
+                <a href="index.html" class="block py-2 px-4 hover:bg-white hover:bg-opacity-10 rounded">首页</a>
+                <a href="surveys.html" class="block py-2 px-4 hover:bg-white hover:bg-opacity-10 rounded">综述作业</a>
+                <a href="projects.html" class="block py-2 px-4 hover:bg-white hover:bg-opacity-10 rounded">模型作业</a>
+            </div>
+        </div>
+    </nav>
 
-    <header>
-        <h1>Welcome to ai4a.dpdns.org</h1>
-        <p>Testing GitHub Pages Deployment</p>
-    </header>
-
-    <section>
-        <h2>About this Page</h2>
-        <p>This is a simple test page to verify that your domain is correctly pointing to a GitHub Pages site.</p>
-        <p>Feel free to customize the content and add more pages as needed.</p>
+    <!-- Hero Section - 课程标题 -->
+    <section class="hero-bg text-white py-16 sm:py-24 relative">
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <div class="inline-block bg-white bg-opacity-20 backdrop-blur-sm px-4 py-2 rounded-full text-sm mb-6">
+                <i class="fas fa-graduation-cap mr-2"></i>跨学科前沿课程
+            </div>
+            <h1 class="hero-title text-4xl sm:text-6xl font-bold mb-6 leading-tight">
+                人工智能考古学
+            </h1>
+            <p class="text-xl sm:text-2xl mb-4 font-light opacity-90">
+                Artificial Intelligence in Archaeology
+            </p>
+            <div class="w-20 h-1 bg-yellow-400 mx-auto mb-8"></div>
+        </div>
     </section>
 
-    <section class="img-container">
-        <h2>Test Image</h2>
-        <img src="https://via.placeholder.com/400" alt="Placeholder Image">
+    <!-- 课程简介 Section -->
+    <section class="bg-white py-16 sm:py-20">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
+                        <i class="fas fa-book-open fudan-blue mr-3"></i>课程简介
+                    </h2>
+                    <div class="w-16 h-1 fudan-blue-bg mx-auto"></div>
+                </div>
+                
+                <div id="courseIntro" class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 sm:p-10 shadow-lg">
+                    <!-- 动态加载课程信息 -->
+                    <div class="text-center py-8">
+                        <i class="fas fa-spinner fa-spin text-3xl fudan-blue"></i>
+                        <p class="text-gray-600 mt-2">加载课程信息中...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section>
-        <h2>Test Link</h2>
-        <p>Click the link below to test external navigation:</p>
-        <a href="https://github.com" target="_blank">Go to GitHub</a>
+    <!-- 教师团队 Section -->
+    <section class="bg-gray-50 py-16 sm:py-20">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
+                        <i class="fas fa-chalkboard-teacher fudan-blue mr-3"></i>教师团队
+                    </h2>
+                    <div class="w-16 h-1 fudan-blue-bg mx-auto mb-4"></div>
+                    <p class="text-gray-600 text-base sm:text-lg">专业导师引领AI考古前沿探索</p>
+                </div>
+                
+                <div id="teacherTeam" class="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+                    <!-- 动态加载教师信息 -->
+                    <div class="col-span-full text-center py-8">
+                        <i class="fas fa-spinner fa-spin text-3xl fudan-blue"></i>
+                        <p class="text-gray-600 mt-2">加载教师信息中...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <p>&copy; 2025 ai4a.dpdns.org - Test Page</p>
+    <!-- 学生作业统计 Section -->
+    <section class="gradient-bg text-white py-16 sm:py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4">
+                    <i class="fas fa-chart-line mr-3"></i>课程成果展示
+                </h2>
+                <div class="w-16 h-1 bg-yellow-400 mx-auto mb-4"></div>
+                <p class="text-base sm:text-lg opacity-90">学生优秀作业与项目成果</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <!-- 综述作业入口 -->
+                <a href="surveys.html" class="stat-card rounded-xl p-6 sm:p-8 text-center transform hover:scale-105 transition cursor-pointer group">
+                    <i class="fas fa-file-alt text-4xl sm:text-5xl mb-4 text-yellow-300 group-hover:text-yellow-200 transition"></i>
+                    <div class="stat-number text-4xl sm:text-5xl font-bold mb-2" id="surveyCount">6</div>
+                    <div class="text-base sm:text-lg font-medium mb-2">综述作业</div>
+                    <p class="text-xs sm:text-sm opacity-75">文献综述与研究分析</p>
+                    <div class="mt-4 text-yellow-300 group-hover:text-yellow-200 transition">
+                        <i class="fas fa-arrow-right"></i> 查看详情
+                    </div>
+                </a>
+                
+                <!-- 模型项目入口 -->
+                <a href="projects.html" class="stat-card rounded-xl p-6 sm:p-8 text-center transform hover:scale-105 transition cursor-pointer group">
+                    <i class="fas fa-project-diagram text-4xl sm:text-5xl mb-4 text-yellow-300 group-hover:text-yellow-200 transition"></i>
+                    <div class="stat-number text-4xl sm:text-5xl font-bold mb-2" id="projectCount">6</div>
+                    <div class="text-base sm:text-lg font-medium mb-2">模型项目</div>
+                    <p class="text-xs sm:text-sm opacity-75">AI模型开发与应用</p>
+                    <div class="mt-4 text-yellow-300 group-hover:text-yellow-200 transition">
+                        <i class="fas fa-arrow-right"></i> 查看详情
+                    </div>
+                </a>
+                
+                <div class="stat-card rounded-xl p-6 sm:p-8 text-center transform hover:scale-105 transition">
+                    <i class="fas fa-users text-4xl sm:text-5xl mb-4 text-yellow-300"></i>
+                    <div class="stat-number text-4xl sm:text-5xl font-bold mb-2" id="studentCount">12</div>
+                    <div class="text-base sm:text-lg font-medium">参与学生</div>
+                    <p class="text-xs sm:text-sm opacity-75 mt-2">来自不同院系</p>
+                </div>
+                
+                <div class="stat-card rounded-xl p-6 sm:p-8 text-center transform hover:scale-105 transition">
+                    <i class="fas fa-star text-4xl sm:text-5xl mb-4 text-yellow-300"></i>
+                    <div class="stat-number text-4xl sm:text-5xl font-bold mb-2">100%</div>
+                    <div class="text-base sm:text-lg font-medium">完成率</div>
+                    <p class="text-xs sm:text-sm opacity-75 mt-2">高质量成果产出</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="gradient-bg text-white py-8 sm:py-10">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm sm:text-base mb-2">
+                <i class="fas fa-university mr-2"></i>AI考古课程学生作业展示平台
+            </p>
+            <p class="text-xs sm:text-sm opacity-75">
+                © 2025 All Rights Reserved
+            </p>
+        </div>
     </footer>
+
+    <script>
+        // 移动端菜单切换
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // 嵌入式课程数据（降级方案）
+        const courseInfoData = {
+            "course": {
+                "code": "AIT531020.01",
+                "credits": 2.0,
+                "hours": 36.0,
+                "department": "文物与博物馆学系",
+                "title": {"zh": "AI考古", "en": "AI for Archaeology"},
+                "description": {
+                    "zh": "AI考古学是人工智能和考古学交叉的前沿方向，旨在高效处理文本、图像、音频等考古大数据，为考古学研究和文物保护修复等提供智力支持。目前，人工智能技术正向考古调查、发掘、材料整理、数据分析甚至考古报告写作等诸环节渗透。考古领域数字化程度逐步提高，遗址、标本、实验结果、图片与文字档案、文献等方面电子化数据库将成为考古机构的标配和基本条件。"
+                },
+                "objectives": "本课程主要向学生介绍AI考古学的发展历史、人工智能的基本知识、以及在考古场景下的最新动态，激发学生对于AI考古学的兴趣，将理论与实践相结合，在案例研讨中培养学生的实际理解与应用能力。通过课程、讨论、互动、实践等形式，让学生全方位感受AI考古的不同应用场景。"
+            },
+            "teachers": [
+                {
+                    "name": "钱振兴",
+                    "title": "教授",
+                    "department": "计算与智能创新学院",
+                    "email": "zxqian@fudan.edu.cn",
+                    "homepage": "https://faculty.fudan.edu.cn/zqian/zh_CN/index.htm",
+                    "bio": "教授、博导，入选国家高层次人才计划，担任文化和旅游部重点实验室副主任。主要从事多媒体信息安全、人工智能应用与安全等方面的研究，主持国家自然科学基金重点、国家重点研发计划课题等各类项目30余项，在IEEE TPAMI、CVPR、ICCV、NeurIPS等顶级期刊和会议上发表学术论文200余篇。",
+                    "expertise": ["多媒体信息安全", "人工智能应用", "计算机视觉"],
+                    "photo": "./钱振兴.png"
+                },
+                {
+                    "name": "金城",
+                    "title": "教授",
+                    "department": "计算与智能创新学院",
+                    "email": "jc@fudan.edu.cn",
+                    "homepage": "https://iipl.fudan.edu.cn/70/e8/c45864a684264/page.htm",
+                    "bio": "计算与智能创新学院教授，长期从事图像处理与计算机视觉研究，在深度学习、图像识别等领域具有丰富的研究经验，致力于将AI技术应用于考古文物研究。",
+                    "expertise": ["图像处理", "计算机视觉", "深度学习"],
+                    "photo": "./金城.jpg"
+                },
+                {
+                    "name": "文少卿",
+                    "title": "副教授",
+                    "department": "文物与博物馆学系",
+                    "email": "wenshaoqing@fudan.edu.cn",
+                    "homepage": "https://www.chm.fudan.edu.cn/bb/fa/c11450a637946/page.htm",
+                    "bio": "文物与博物馆学系副教授，课程负责人。专注于科技考古、文物保护与数字人文研究，致力于推动人工智能技术在考古学领域的创新应用，在考古大数据分析和智能化考古研究方面具有深入探索。",
+                    "expertise": ["科技考古", "文物保护", "数字人文", "考古大数据"],
+                    "photo": "./文少卿.jpg"
+                }
+            ],
+            "keyFeatures": [
+                {"icon": "brain", "title": "深度学习", "description": "应用深度学习算法进行文物识别与分类"},
+                {"icon": "eye", "title": "计算机视觉", "description": "利用图像识别技术处理考古影像资料"},
+                {"icon": "layer-group", "title": "遗址分析", "description": "基于遥感数据的智能考古发掘与分析"},
+                {"icon": "language", "title": "古文字识别", "description": "运用NLP技术进行古文字自动识别与解读"}
+            ]
+        };
+        
+        // 先使用嵌入数据渲染（确保页面立即显示）
+        renderCourseIntro(courseInfoData.course, courseInfoData.keyFeatures);
+        renderTeachers(courseInfoData.teachers);
+        
+        // 尝试加载外部JSON文件（如果成功则更新）
+        fetch('course-info.json')
+            .then(response => response.json())
+            .then(courseData => {
+                console.log('外部课程信息加载成功');
+                renderCourseIntro(courseData.course, courseData.keyFeatures);
+                renderTeachers(courseData.teachers);
+            })
+            .catch(error => {
+                console.log('使用嵌入式数据（正常情况）:', error.message);
+            });
+        
+        // 作业统计数据（默认值）
+        document.getElementById('surveyCount').textContent = 6;
+        document.getElementById('projectCount').textContent = 6;
+        document.getElementById('studentCount').textContent = 12;
+        
+        // 尝试加载外部作业数据（如果成功则更新）
+        fetch('data.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log('作业数据加载成功');
+                document.getElementById('surveyCount').textContent = data.surveys.length;
+                document.getElementById('projectCount').textContent = data.projects.length;
+                
+                // 计算学生总数
+                const students = new Set();
+                data.surveys.forEach(s => students.add(s.studentId));
+                data.projects.forEach(p => students.add(p.studentId));
+                document.getElementById('studentCount').textContent = students.size;
+            })
+            .catch(error => {
+                console.log('使用默认统计数据（正常情况）:', error.message);
+            });
+        
+        // 渲染课程简介
+        function renderCourseIntro(course, features) {
+            const container = document.getElementById('courseIntro');
+            container.innerHTML = `
+                <div class="flex flex-wrap items-center gap-2 mb-6">
+                    <span class="inline-block bg-blue-100 text-xs sm:text-sm px-3 py-1 rounded-full fudan-blue font-medium">
+                        <i class="fas fa-tag mr-1"></i>课程代码：${course.code}
+                    </span>
+                    <span class="inline-block bg-blue-100 text-xs sm:text-sm px-3 py-1 rounded-full fudan-blue font-medium">
+                        <i class="fas fa-graduation-cap mr-1"></i>学分：${course.credits}
+                    </span>
+                    <span class="inline-block bg-blue-100 text-xs sm:text-sm px-3 py-1 rounded-full fudan-blue font-medium">
+                        <i class="fas fa-clock mr-1"></i>学时：${course.hours}
+                    </span>
+                    <span class="inline-block bg-blue-100 text-xs sm:text-sm px-3 py-1 rounded-full fudan-blue font-medium">
+                        <i class="fas fa-university mr-1"></i>${course.department}
+                    </span>
+                </div>
+                
+                <p class="text-gray-700 text-base sm:text-lg leading-relaxed mb-6 text-justify">
+                    ${course.description.zh}
+                </p>
+                <p class="text-gray-700 text-base sm:text-lg leading-relaxed text-justify mb-8">
+                    ${course.objectives}
+                </p>
+                
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+                    ${features.map(feature => `
+                        <div class="text-center">
+                            <div class="bg-white rounded-xl p-5 sm:p-6 shadow-sm hover:shadow-md transition h-full">
+                                <i class="fas fa-${feature.icon} text-3xl sm:text-4xl fudan-blue mb-3"></i>
+                                <p class="text-sm sm:text-base text-gray-800 font-medium mb-2">${feature.title}</p>
+                                <p class="text-xs text-gray-500 leading-relaxed">${feature.description}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+        
+        // 渲染教师团队
+        function renderTeachers(teachers) {
+            const container = document.getElementById('teacherTeam');
+            container.innerHTML = teachers.map(teacher => `
+                <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition text-center h-full flex flex-col">
+                    <div class="mb-6 flex justify-center">
+                        <img src="${teacher.photo}" 
+                             alt="${teacher.name}" 
+                             class="teacher-avatar">
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">${teacher.name}</h3>
+                    <p class="fudan-blue font-medium mb-3 text-sm sm:text-base">${teacher.title} · ${teacher.department}</p>
+                    <p class="text-gray-600 text-xs sm:text-sm leading-relaxed mb-4 flex-grow">
+                        ${teacher.bio}
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-1 justify-center mb-4">
+                        ${teacher.expertise.map(exp => `
+                            <span class="bg-blue-50 text-xs px-2 py-1 rounded" style="color: #094FA3;">
+                                ${exp}
+                            </span>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="pt-4 border-t border-gray-200 space-y-2 mt-auto">
+                        <p class="text-gray-500 text-xs truncate">
+                            <i class="fas fa-envelope mr-2"></i>${teacher.email}
+                        </p>
+                        <a href="${teacher.homepage}" target="_blank" 
+                           class="inline-block text-xs fudan-blue hover:underline">
+                            <i class="fas fa-link mr-1"></i>个人主页
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
 
 </body>
 </html>
+
