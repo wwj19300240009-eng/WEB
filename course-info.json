@@ -58,6 +58,20 @@
   },
   "teachers": [
     {
+      "id": 3,
+      "name": "文少卿",
+      "nameEn": "Wen Shaoqing",
+      "title": "副教授",
+      "titleEn": "Associate Professor",
+      "role": "课程负责人",
+      "department": "文物与博物馆学系",
+      "email": "wenshaoqing@fudan.edu.cn",
+      "homepage": "https://www.chm.fudan.edu.cn/bb/fa/c11450a637946/page.htm",
+      "bio": "文物与博物馆学系副教授，专注于科技考古、文物保护与数字人文研究，致力于推动人工智能技术在考古学领域的创新应用，在考古大数据分析和智能化考古研究方面具有深入探索。",
+      "expertise": ["科技考古", "文物保护", "数字人文", "考古大数据"],
+      "photo": "wen-shaoqing.jpg"
+    },
+    {
       "id": 1,
       "name": "钱振兴",
       "nameEn": "Qian Zhenxing",
@@ -84,20 +98,6 @@
       "bio": "计算与智能创新学院教授，长期从事图像处理与计算机视觉研究，在深度学习、图像识别等领域具有丰富的研究经验，致力于将AI技术应用于考古文物研究。",
       "expertise": ["图像处理", "计算机视觉", "深度学习"],
       "photo": "jin-cheng.jpg"
-    },
-    {
-      "id": 3,
-      "name": "文少卿",
-      "nameEn": "Wen Shaoqing",
-      "title": "副教授",
-      "titleEn": "Associate Professor",
-      "role": "课程负责人",
-      "department": "文物与博物馆学系",
-      "email": "wenshaoqing@fudan.edu.cn",
-      "homepage": "https://www.chm.fudan.edu.cn/bb/fa/c11450a637946/page.htm",
-      "bio": "文物与博物馆学系副教授，专注于科技考古、文物保护与数字人文研究，致力于推动人工智能技术在考古学领域的创新应用，在考古大数据分析和智能化考古研究方面具有深入探索。",
-      "expertise": ["科技考古", "文物保护", "数字人文", "考古大数据"],
-      "photo": "wen-shaoqing.jpg"
     }
   ],
   "keyFeatures": [
