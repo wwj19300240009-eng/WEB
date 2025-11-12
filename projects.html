@@ -86,10 +86,13 @@
     <nav class="gradient-bg text-white shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4">
             <div class="flex items-center justify-between">
-                <a href="index.html" class="flex items-center space-x-2">
-                    <i class="fas fa-landmark text-2xl"></i>
-                    <span class="text-xl font-bold hidden sm:inline">AI考古课程</span>
-                    <span class="text-lg font-bold sm:hidden">AI考古</span>
+                <a href="index.html" class="flex items-center space-x-3">
+                    <img src="fudan_logo.png" alt="复旦大学" class="h-10 w-10 sm:h-12 sm:w-12 object-contain bg-white rounded-full p-1.5">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-landmark text-xl sm:text-2xl"></i>
+                        <span class="text-lg sm:text-xl font-bold hidden sm:inline">AI考古课程</span>
+                        <span class="text-base font-bold sm:hidden">AI考古</span>
+                    </div>
                 </a>
                 
                 <button id="mobileMenuBtn" class="sm:hidden">
@@ -207,14 +210,19 @@
     </div>
 
     <!-- 页脚 -->
-    <footer class="gradient-bg text-white py-6 sm:py-8 mt-12">
-        <div class="container mx-auto px-4 text-center">
-            <p class="text-sm sm:text-base mb-2">
-                <i class="fas fa-university mr-2"></i>AI考古课程学生作业展示平台
-            </p>
-            <p class="text-xs sm:text-sm opacity-75">
-                © 2025 All Rights Reserved
-            </p>
+    <footer class="gradient-bg text-white py-10 sm:py-12 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <img src="fudan_logo.png" alt="复旦大学" class="h-16 w-16 sm:h-20 sm:w-20 object-contain mx-auto mb-4 opacity-90">
+                <h3 class="text-xl sm:text-2xl font-bold mb-2">复旦大学</h3>
+                <p class="text-sm sm:text-base mb-4 opacity-90">
+                    <i class="fas fa-university mr-2"></i>AI考古课程学生作业展示平台
+                </p>
+                <div class="border-t border-white border-opacity-20 my-6"></div>
+                <p class="text-xs sm:text-sm opacity-75">
+                    © 2025 复旦大学 All Rights Reserved
+                </p>
+            </div>
         </div>
     </footer>
 
@@ -263,9 +271,15 @@
             container.innerHTML = projects.map((project, index) => `
                 <div class="card-hover bg-white rounded-lg shadow-md overflow-hidden">
                     <!-- 视频缩略图 -->
-                    <div class="bg-gradient-to-br ${colors[index % colors.length]} h-48 sm:h-56 flex items-center justify-center relative cursor-pointer" 
+                    <div class="relative h-48 sm:h-56 bg-black cursor-pointer group" 
                          onclick='openModal(${JSON.stringify(project)})'>
-                        <i class="fas fa-play-circle text-white text-6xl sm:text-7xl opacity-80 hover:opacity-100 transition"></i>
+                        <video class="w-full h-full object-cover" preload="metadata" muted>
+                            <source src="${project.videoPath}#t=0.1" type="video/mp4">
+                        </video>
+                        <div class="absolute inset-0 bg-gradient-to-br ${colors[index % colors.length]} opacity-30 group-hover:opacity-20 transition"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i class="fas fa-play-circle text-white text-6xl sm:text-7xl opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all"></i>
+                        </div>
                         <div class="absolute top-3 right-3">
                             <span class="bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
                                 <i class="fas fa-video mr-1"></i>视频
