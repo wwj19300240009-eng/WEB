@@ -138,10 +138,7 @@
                 </div>
                 <select id="tagFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base">
                     <option value="">全部标签</option>
-                    <option value="计算机视觉">计算机视觉</option>
-                    <option value="深度学习">深度学习</option>
-                    <option value="文物识别">文物识别</option>
-                    <option value="图像识别">图像识别</option>
+                    <!-- 标签选项将从数据动态生成 -->
                 </select>
             </div>
         </div>
@@ -239,12 +236,30 @@
             .then(response => response.json())
             .then(data => {
                 allProjects = data.projects;
+                populateTagFilter(allProjects);
                 renderProjects(allProjects);
             })
             .catch(error => {
                 console.error('数据加载失败:', error);
                 document.getElementById('noResults').classList.remove('hidden');
             });
+        
+        // 动态填充标签筛选器
+        function populateTagFilter(projects) {
+            const tagSet = new Set();
+            projects.forEach(p => {
+                if (p.tags) p.tags.forEach(t => tagSet.add(t));
+            });
+            const select = document.getElementById('tagFilter');
+            // 保留第一个"全部标签"选项
+            const sortedTags = [...tagSet].sort();
+            sortedTags.forEach(tag => {
+                const opt = document.createElement('option');
+                opt.value = tag;
+                opt.textContent = tag;
+                select.appendChild(opt);
+            });
+        }
         
         // 渲染项目卡片
         function renderProjects(projects) {
@@ -288,11 +303,16 @@
                         </div>
                     </div>
                     ` : `
-                    <div class="relative h-48 sm:h-56 bg-gradient-to-br ${colors[index % colors.length]} flex items-center justify-center">
-                        <i class="fas fa-file-alt text-white text-6xl sm:text-7xl opacity-50"></i>
+                    <div class="relative h-48 sm:h-56 bg-gradient-to-br ${colors[index % colors.length]} flex flex-col items-center justify-center p-6 text-center">
+                        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                        <div class="relative z-10">
+                            <i class="fas ${project.pdfPath && project.pdfPath.toLowerCase().endsWith('.pdf') ? 'fa-file-pdf' : (project.pdfPath && project.pdfPath.toLowerCase().endsWith('.pptx') ? 'fa-file-powerpoint' : 'fa-file-word')} text-white text-3xl mb-3 opacity-90"></i>
+                            <h4 class="text-white font-bold text-sm sm:text-base leading-tight mb-2 line-clamp-2">${project.title}</h4>
+                            <p class="text-white text-xs opacity-80 line-clamp-2">${project.description || ''}</p>
+                        </div>
                         <div class="absolute top-3 right-3">
                             <span class="bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
-                                <i class="fas fa-file-alt mr-1"></i>文档
+                                <i class="fas ${project.pdfPath && project.pdfPath.toLowerCase().endsWith('.pdf') ? 'fa-file-pdf' : 'fa-file-powerpoint'} mr-1"></i>${project.pdfPath && project.pdfPath.toLowerCase().endsWith('.pdf') ? 'PDF' : 'PPT'}
                             </span>
                         </div>
                     </div>
