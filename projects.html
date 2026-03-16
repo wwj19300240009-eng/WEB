@@ -270,11 +270,12 @@
             
             container.innerHTML = projects.map((project, index) => `
                 <div class="card-hover bg-white rounded-lg shadow-md overflow-hidden">
-                    <!-- 视频缩略图 -->
+                    <!-- 视频缩略图 (只有在有视频路径时才渲染) -->
+                    ${project.videoPath ? `
                     <div class="relative h-48 sm:h-56 bg-black cursor-pointer group" 
-                         onclick='openModal(${JSON.stringify(project)})'>
+                         onclick='openModal(${JSON.stringify(project).replace(/'/g, "&#39;")})'>
                         <video class="w-full h-full object-cover" preload="metadata" muted>
-                            <source src="${project.videoPath}#t=0.1" type="video/mp4">
+                            <source src="${project.videoPath}#t=0.1">
                         </video>
                         <div class="absolute inset-0 bg-gradient-to-br ${colors[index % colors.length]} opacity-30 group-hover:opacity-20 transition"></div>
                         <div class="absolute inset-0 flex items-center justify-center">
@@ -286,6 +287,16 @@
                             </span>
                         </div>
                     </div>
+                    ` : `
+                    <div class="relative h-48 sm:h-56 bg-gradient-to-br ${colors[index % colors.length]} flex items-center justify-center">
+                        <i class="fas fa-file-alt text-white text-6xl sm:text-7xl opacity-50"></i>
+                        <div class="absolute top-3 right-3">
+                            <span class="bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
+                                <i class="fas fa-file-alt mr-1"></i>文档
+                            </span>
+                        </div>
+                    </div>
+                    `}
                     
                     <!-- 内容区域 -->
                     <div class="p-4 sm:p-5">
@@ -315,16 +326,21 @@
                         </div>
                         
                         <div class="flex gap-2">
-                            <button onclick='openModal(${JSON.stringify(project)})' 
+                            ${project.videoPath ? `
+                            <button onclick='openModal(${JSON.stringify(project).replace(/'/g, "&#39;")})' 
                                     style="background-color: #094FA3;" 
                                     class="flex-1 hover:opacity-90 text-white py-2 px-4 rounded-lg transition text-sm sm:text-base">
                                 <i class="fas fa-play mr-2"></i>播放视频
                             </button>
+                            ` : ''}
+                            ${project.pdfPath ? `
                             <a href="${project.pdfPath}" 
                                target="_blank" 
-                               class="bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-3 sm:px-4 rounded-lg transition">
-                                <i class="fas fa-file-pdf"></i>
+                               class="${project.videoPath ? 'bg-gray-200 hover:bg-gray-300 text-gray-700' : 'bg-blue-600 hover:bg-blue-700 text-white flex-1 text-center'} py-2 px-3 sm:px-4 rounded-lg transition">
+                                <i class="fas ${project.pdfPath.toLowerCase().endsWith('.pdf') ? 'fa-file-pdf' : (project.pdfPath.toLowerCase().endsWith('.pptx') ? 'fa-file-powerpoint' : 'fa-file-word')} ${project.videoPath ? '' : 'mr-2'}"></i>
+                                ${project.videoPath ? '' : (project.pdfPath.toLowerCase().endsWith('.pdf') ? '查看介绍PDF' : (project.pdfPath.toLowerCase().endsWith('.pptx') ? '下载介绍PPT' : '下载介绍文档'))}
                             </a>
+                            ` : ''}
                         </div>
                     </div>
                 </div>
@@ -340,11 +356,34 @@
             document.getElementById('modalAuthor').textContent = project.author;
             document.getElementById('modalStudentId').textContent = project.studentId;
             document.getElementById('modalDescription').textContent = project.description || '暂无详细介绍';
-            document.getElementById('modalPdfLink').href = project.pdfPath;
+            
+            const pdfLink = document.getElementById('modalPdfLink');
+            if (project.pdfPath) {
+                pdfLink.href = project.pdfPath;
+                pdfLink.style.display = 'inline-block';
+                
+                const lowerPath = project.pdfPath.toLowerCase();
+                if (lowerPath.endsWith('.pdf')) {
+                    pdfLink.innerHTML = '<i class="fas fa-file-pdf mr-2"></i>查看介绍PDF';
+                } else if (lowerPath.endsWith('.pptx')) {
+                    pdfLink.innerHTML = '<i class="fas fa-file-powerpoint mr-2"></i>下载介绍PPT';
+                } else if (lowerPath.endsWith('.docx')) {
+                    pdfLink.innerHTML = '<i class="fas fa-file-word mr-2"></i>下载介绍文档';
+                } else {
+                    pdfLink.innerHTML = '<i class="fas fa-file mr-2"></i>下载附件';
+                }
+            } else {
+                pdfLink.style.display = 'none';
+            }
             
             // 设置视频源
-            video.src = project.videoPath;
-            video.load();
+            if (project.videoPath) {
+                video.innerHTML = `<source src="${project.videoPath}">您的浏览器不支持视频播放`;
+                video.load();
+                video.parentElement.parentElement.style.display = 'block';
+            } else {
+                video.parentElement.parentElement.style.display = 'none';
+            }
             
             // 设置标签
             const tagsContainer = document.getElementById('modalTags');
